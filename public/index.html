@@ -1,0 +1,874 @@
+<!-- ========== public/index.html ========== -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JemmoApp · Fresh Goods Delivered Fast</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --green-deep: #0b4b2c;
+      --green-primary: #1c8b4c;
+      --green-accent: #2ecc71;
+      --green-light: #d6f0e2;
+      --green-soft: #eaf9f0;
+      --gray-border: #d9ebe1;
+      --text-muted: #5f8b76;
+      --shadow: 0 12px 30px rgba(0, 40, 15, 0.06), 0 4px 10px rgba(0, 30, 10, 0.04);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f7fdf9;
+      color: #103b2a;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { text-decoration: none; color: inherit; }
+
+    /* ---------- NAVBAR ---------- */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--gray-border);
+      transition: box-shadow 0.2s;
+    }
+    .navbar.scrolled { box-shadow: 0 6px 24px rgba(0, 50, 20, 0.06); }
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0.9rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 0.65rem;
+      font-weight: 800; font-size: 1.6rem; letter-spacing: -0.03em;
+      color: var(--green-deep); flex-shrink: 0;
+    }
+    .logo i {
+      background: linear-gradient(135deg, #1c8b4c, #2ecc71);
+      color: #fff; padding: 0.55rem; border-radius: 12px;
+      font-size: 1.3rem;
+      box-shadow: 0 8px 16px -6px rgba(28, 139, 76, 0.5);
+    }
+    .nav-menu {
+      display: flex; align-items: center; gap: 1.8rem;
+      list-style: none;
+    }
+    .nav-menu a {
+      font-weight: 500; font-size: 0.97rem; color: #1f4e38;
+      position: relative; padding: 0.3rem 0; transition: color 0.15s;
+    }
+    .nav-menu a:hover { color: var(--green-primary); }
+    .nav-menu a::after {
+      content: ''; position: absolute; left: 0; bottom: -3px;
+      width: 0; height: 2.5px; border-radius: 4px;
+      background: var(--green-primary); transition: width 0.2s;
+    }
+    .nav-menu a:hover::after { width: 100%; }
+
+    .nav-actions { display: flex; align-items: center; gap: 0.7rem; }
+    .btn {
+      border: none; cursor: pointer; font-family: inherit;
+      border-radius: 40px; font-weight: 600; font-size: 0.92rem;
+      padding: 0.7rem 1.4rem; display: inline-flex;
+      align-items: center; gap: 0.5rem; transition: all 0.18s;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--green-primary); color: #fff;
+      box-shadow: 0 12px 22px -8px rgba(28, 139, 76, 0.55);
+    }
+    .btn-primary:hover { background: #147a3f; transform: translateY(-2px); }
+    .btn-ghost {
+      background: #fff; color: var(--green-deep);
+      border: 1.5px solid var(--gray-border);
+    }
+    .btn-ghost:hover { background: var(--green-soft); border-color: var(--green-primary); }
+    .btn-icon {
+      width: 42px; height: 42px; padding: 0; border-radius: 50%;
+      background: var(--green-soft); color: var(--green-deep);
+      border: 1px solid var(--gray-border);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 1rem; position: relative;
+    }
+    .btn-icon:hover { background: var(--green-light); }
+    .cart-count {
+      position: absolute; top: -4px; right: -4px;
+      background: var(--green-primary); color: #fff;
+      font-size: 0.68rem; font-weight: 700;
+      min-width: 18px; height: 18px; border-radius: 100px;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid #fff;
+    }
+    .hamburger {
+      display: none;
+      background: none; border: none; font-size: 1.5rem;
+      color: var(--green-deep); cursor: pointer;
+    }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 4rem 2rem 3rem;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--green-light); color: var(--green-deep);
+      padding: 0.45rem 1rem; border-radius: 100px;
+      font-size: 0.85rem; font-weight: 600;
+      margin-bottom: 1.4rem;
+      border: 1px solid #b7dfc8;
+    }
+    .hero-badge i { color: var(--green-primary); }
+    .hero h1 {
+      font-size: 3.6rem; font-weight: 900; letter-spacing: -0.035em;
+      line-height: 1.08; color: var(--green-deep); margin-bottom: 1.2rem;
+    }
+    .hero h1 span { color: var(--green-primary); }
+    .hero p {
+      font-size: 1.15rem; color: #3d6e55; max-width: 480px;
+      margin-bottom: 2rem; font-weight: 400;
+    }
+    .hero-buttons { display: flex; gap: 0.9rem; flex-wrap: wrap; margin-bottom: 2.4rem; }
+    .btn-large { padding: 1rem 2rem; font-size: 1.02rem; }
+    .hero-stats {
+      display: flex; gap: 2.4rem; flex-wrap: wrap;
+      padding-top: 1.6rem; border-top: 1px solid var(--gray-border);
+    }
+    .hero-stat strong {
+      display: block; font-size: 1.6rem; font-weight: 800;
+      color: var(--green-deep); letter-spacing: -0.02em;
+    }
+    .hero-stat span { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }
+
+    .hero-visual {
+      position: relative;
+      display: flex; justify-content: center; align-items: center;
+    }
+    .hero-card {
+      background: linear-gradient(145deg, #ffffff, #eafaf1);
+      border: 1px solid var(--gray-border);
+      border-radius: 36px;
+      padding: 2.2rem;
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 420px;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-card .card-title {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.6rem;
+    }
+    .hero-card .card-title h3 { font-size: 1.1rem; font-weight: 700; }
+    .delivery-pill {
+      background: var(--green-primary); color: #fff;
+      font-size: 0.75rem; font-weight: 700;
+      padding: 0.3rem 0.8rem; border-radius: 100px;
+      display: inline-flex; align-items: center; gap: 0.35rem;
+    }
+    .delivery-item {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 0.85rem 0; border-bottom: 1px dashed var(--gray-border);
+    }
+    .delivery-item:last-of-type { border-bottom: none; }
+    .delivery-icon {
+      width: 46px; height: 46px; border-radius: 14px;
+      background: var(--green-soft); display: flex;
+      align-items: center; justify-content: center;
+      font-size: 1.15rem; color: var(--green-primary); flex-shrink: 0;
+    }
+    .delivery-item .info { flex: 1; }
+    .delivery-item .info strong { font-size: 0.95rem; display: block; }
+    .delivery-item .info small { color: var(--text-muted); font-size: 0.8rem; }
+    .delivery-item .price { font-weight: 700; color: var(--green-deep); font-size: 0.95rem; }
+    .card-total {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 1.4rem; padding-top: 1.2rem;
+      border-top: 2px solid var(--green-light);
+      font-weight: 700;
+    }
+    .card-total span { color: var(--text-muted); font-size: 0.9rem; font-weight: 600; }
+    .card-total strong { font-size: 1.4rem; color: var(--green-deep); }
+    .floating-badge {
+      position: absolute; z-index: 3;
+      background: #fff; border-radius: 20px;
+      padding: 0.9rem 1.2rem;
+      box-shadow: 0 16px 34px -10px rgba(0, 50, 20, 0.18);
+      display: flex; align-items: center; gap: 0.7rem;
+      font-size: 0.85rem; font-weight: 600;
+      border: 1px solid var(--gray-border);
+      animation: float 4s ease-in-out infinite;
+    }
+    .floating-badge i { color: var(--green-primary); font-size: 1.1rem; }
+    .badge-1 { top: -12px; left: -16px; }
+    .badge-2 { bottom: -14px; right: -12px; animation-delay: 1.5s; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* ---------- SECTIONS ---------- */
+    .section {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem;
+    }
+    .section-head {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 3rem;
+    }
+    .section-tag {
+      color: var(--green-primary); font-weight: 700;
+      font-size: 0.85rem; text-transform: uppercase;
+      letter-spacing: 0.12em; margin-bottom: 0.6rem;
+    }
+    .section-head h2 {
+      font-size: 2.4rem; font-weight: 800;
+      letter-spacing: -0.03em; color: var(--green-deep);
+      margin-bottom: 0.8rem;
+    }
+    .section-head p { color: var(--text-muted); font-size: 1.05rem; }
+
+    /* Categories */
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.2rem;
+    }
+    .category-card {
+      background: #fff; border: 1px solid var(--gray-border);
+      border-radius: 24px; padding: 1.8rem 1rem;
+      text-align: center; cursor: pointer;
+      transition: all 0.2s; box-shadow: 0 4px 12px rgba(0, 40, 15, 0.03);
+    }
+    .category-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 18px 30px -12px rgba(0, 60, 25, 0.15);
+      border-color: var(--green-primary);
+    }
+    .category-card .cat-icon {
+      font-size: 2rem; color: var(--green-primary);
+      margin-bottom: 0.9rem;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 64px; height: 64px; border-radius: 18px;
+      background: var(--green-soft);
+      transition: transform 0.2s;
+    }
+    .category-card:hover .cat-icon { transform: scale(1.1); }
+    .category-card h4 { font-size: 1rem; font-weight: 600; color: var(--green-deep); }
+    .category-card span { font-size: 0.8rem; color: var(--text-muted); }
+
+    /* Products */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 1.4rem;
+    }
+    .product-card {
+      background: #fff; border: 1px solid var(--gray-border);
+      border-radius: 26px; overflow: hidden;
+      transition: all 0.2s; box-shadow: 0 4px 14px rgba(0, 40, 15, 0.04);
+      display: flex; flex-direction: column;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 34px -14px rgba(0, 60, 25, 0.18);
+    }
+    .product-img {
+      height: 170px;
+      background: linear-gradient(145deg, #eafaf1, #d6f0e2);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .product-img i {
+      font-size: 3.4rem; color: var(--green-primary); opacity: 0.85;
+    }
+    .product-tag {
+      position: absolute; top: 12px; left: 12px;
+      background: var(--green-deep); color: #fff;
+      font-size: 0.7rem; font-weight: 700;
+      padding: 0.25rem 0.7rem; border-radius: 100px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .product-body { padding: 1.2rem 1.3rem 1.4rem; flex: 1; display: flex; flex-direction: column; }
+    .product-body h4 { font-size: 1.02rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .product-body .unit { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.9rem; }
+    .product-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+    .product-price { font-size: 1.25rem; font-weight: 800; color: var(--green-deep); letter-spacing: -0.02em; }
+    .product-price small { font-size: 0.78rem; color: var(--text-muted); font-weight: 500; }
+    .add-btn {
+      width: 40px; height: 40px; border-radius: 13px;
+      background: var(--green-soft); color: var(--green-primary);
+      border: 1.5px solid var(--green-light);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: 0.18s; font-size: 1rem;
+    }
+    .add-btn:hover { background: var(--green-primary); color: #fff; border-color: var(--green-primary); transform: scale(1.06); }
+
+    /* Download App Section */
+    .download-section {
+      max-width: 1280px;
+      margin: 2rem auto 0;
+      padding: 0 2rem;
+    }
+    .download-card {
+      background: linear-gradient(135deg, var(--green-deep) 0%, #0e5a34 60%, #147a3f 100%);
+      border-radius: 40px;
+      padding: 3.5rem;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 2rem;
+      align-items: center;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .download-card::before {
+      content: ''; position: absolute;
+      width: 400px; height: 400px; border-radius: 50%;
+      background: rgba(46, 204, 113, 0.15);
+      top: -180px; right: -100px;
+    }
+    .download-card::after {
+      content: ''; position: absolute;
+      width: 280px; height: 280px; border-radius: 50%;
+      background: rgba(46, 204, 113, 0.1);
+      bottom: -140px; left: 30%;
+    }
+    .download-content { position: relative; z-index: 2; }
+    .download-content h2 {
+      font-size: 2.4rem; font-weight: 800;
+      letter-spacing: -0.03em; margin-bottom: 0.9rem; line-height: 1.15;
+    }
+    .download-content p { color: #c3e8d4; font-size: 1.05rem; margin-bottom: 2rem; max-width: 460px; }
+    .download-actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .btn-apk {
+      background: #fff; color: var(--green-deep);
+      padding: 1rem 2rem; border-radius: 60px;
+      font-weight: 700; font-size: 1.02rem;
+      display: inline-flex; align-items: center; gap: 0.7rem;
+      transition: all 0.2s; border: none; cursor: pointer;
+      box-shadow: 0 14px 28px -10px rgba(0,0,0,0.35);
+    }
+    .btn-apk:hover { transform: translateY(-3px); box-shadow: 0 20px 32px -10px rgba(0,0,0,0.45); }
+    .btn-apk i { font-size: 1.3rem; color: var(--green-primary); }
+    .apk-meta {
+      display: flex; align-items: center; gap: 0.5rem;
+      color: #a8d8bd; font-size: 0.85rem; font-weight: 500;
+    }
+    .apk-meta i { color: #7ed4a3; }
+    .qr-box {
+      position: relative; z-index: 2;
+      background: #fff; border-radius: 28px;
+      padding: 1.6rem; text-align: center;
+      max-width: 220px; margin-left: auto;
+      box-shadow: 0 20px 40px -16px rgba(0,0,0,0.3);
+    }
+    .qr-box .qr-placeholder {
+      width: 100%; aspect-ratio: 1;
+      background:
+        repeating-linear-gradient(0deg, #0b4b2c 0 6px, transparent 6px 12px),
+        repeating-linear-gradient(90deg, #0b4b2c 0 6px, transparent 6px 12px);
+      background-blend-mode: multiply;
+      border-radius: 14px; margin-bottom: 0.9rem;
+      opacity: 0.85;
+    }
+    .qr-box span { font-size: 0.8rem; font-weight: 600; color: var(--green-deep); }
+
+    /* How it works */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.4rem;
+      counter-reset: step;
+    }
+    .step-card {
+      background: #fff; border: 1px solid var(--gray-border);
+      border-radius: 26px; padding: 2.2rem 1.8rem;
+      position: relative; box-shadow: 0 4px 14px rgba(0, 40, 15, 0.04);
+    }
+    .step-num {
+      width: 48px; height: 48px; border-radius: 16px;
+      background: var(--green-light); color: var(--green-primary);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; margin-bottom: 1.2rem;
+    }
+    .step-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .step-card p { color: var(--text-muted); font-size: 0.93rem; }
+
+    /* Footer */
+    .footer {
+      background: #0b3a22;
+      color: #b5d9c6;
+      margin-top: 3rem;
+    }
+    .footer-inner {
+      max-width: 1280px; margin: 0 auto;
+      padding: 3.5rem 2rem 2rem;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 2.5rem;
+    }
+    .footer-brand .logo { color: #fff; margin-bottom: 1rem; }
+    .footer-brand p { font-size: 0.92rem; color: #8fbfa7; max-width: 280px; margin-bottom: 1.4rem; }
+    .socials { display: flex; gap: 0.6rem; }
+    .socials a {
+      width: 38px; height: 38px; border-radius: 11px;
+      background: rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: center;
+      color: #cde9da; transition: 0.18s;
+    }
+    .socials a:hover { background: var(--green-primary); color: #fff; transform: translateY(-3px); }
+    .footer-col h4 {
+      color: #fff; font-size: 0.95rem; font-weight: 700;
+      margin-bottom: 1.1rem; letter-spacing: 0.02em;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+    .footer-col a { font-size: 0.9rem; color: #8fbfa7; transition: 0.15s; }
+    .footer-col a:hover { color: #fff; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding: 1.4rem 2rem;
+      text-align: center;
+      font-size: 0.85rem; color: #7aab92;
+      max-width: 1280px; margin: 0 auto;
+    }
+
+    /* ---------- MOBILE NAV DRAWER ---------- */
+    .mobile-menu {
+      position: fixed; inset: 0; z-index: 200;
+      pointer-events: none;
+    }
+    .mobile-menu .overlay {
+      position: absolute; inset: 0;
+      background: rgba(6, 30, 18, 0.5);
+      opacity: 0; transition: opacity 0.3s;
+      backdrop-filter: blur(2px);
+    }
+    .mobile-menu .panel {
+      position: absolute; top: 0; right: 0; bottom: 0;
+      width: min(320px, 85vw);
+      background: #fff;
+      transform: translateX(100%);
+      transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 1.5rem;
+      display: flex; flex-direction: column;
+      box-shadow: -20px 0 50px rgba(0, 30, 15, 0.15);
+    }
+    .mobile-menu.open { pointer-events: auto; }
+    .mobile-menu.open .overlay { opacity: 1; }
+    .mobile-menu.open .panel { transform: translateX(0); }
+    .mobile-menu .panel-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.6rem; padding-bottom: 1.2rem;
+      border-bottom: 1px solid var(--gray-border);
+    }
+    .mobile-menu .panel-head .logo { font-size: 1.3rem; }
+    .close-menu {
+      background: var(--green-soft); border: none;
+      width: 38px; height: 38px; border-radius: 11px;
+      color: var(--green-deep); font-size: 1.1rem;
+      cursor: pointer; display: flex;
+      align-items: center; justify-content: center;
+    }
+    .mobile-menu nav ul { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
+    .mobile-menu nav a {
+      display: flex; align-items: center; gap: 0.9rem;
+      padding: 0.9rem 1rem; border-radius: 14px;
+      font-weight: 600; color: var(--green-deep); font-size: 1rem;
+    }
+    .mobile-menu nav a i { width: 22px; color: var(--green-primary); }
+    .mobile-menu nav a:hover { background: var(--green-soft); }
+    .mobile-menu .panel-foot { margin-top: auto; padding-top: 1.4rem; border-top: 1px solid var(--gray-border); display: flex; flex-direction: column; gap: 0.7rem; }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 1024px) {
+      .hero { grid-template-columns: 1fr; text-align: center; padding-top: 3rem; }
+      .hero p { margin-left: auto; margin-right: auto; }
+      .hero-buttons { justify-content: center; }
+      .hero-stats { justify-content: center; }
+      .hero-visual { display: none; }
+      .download-card { grid-template-columns: 1fr; text-align: center; padding: 2.6rem 2rem; }
+      .download-content p { margin-left: auto; margin-right: auto; }
+      .download-actions { justify-content: center; }
+      .qr-box { margin: 0 auto; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 860px) {
+      .nav-menu { display: none; }
+      .nav-actions .btn-ghost, .nav-actions .btn-primary { display: none; }
+      .hamburger { display: block; }
+      .nav-inner { padding: 0.8rem 1.2rem; }
+    }
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 2.5rem; }
+      .hero { padding: 2rem 1.2rem; }
+      .section { padding: 2.5rem 1.2rem; }
+      .section-head h2 { font-size: 1.85rem; }
+      .download-section { padding: 0 1.2rem; }
+      .download-card { padding: 2rem 1.4rem; border-radius: 28px; }
+      .download-content h2 { font-size: 1.9rem; }
+      .footer-inner { grid-template-columns: 1fr; gap: 2rem; padding: 2.5rem 1.4rem 1.5rem; }
+      .footer-bottom { padding: 1.2rem; }
+      .hero-stats { gap: 1.6rem; }
+      .products-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
+      .product-img { height: 130px; }
+      .product-img i { font-size: 2.6rem; }
+      .product-body { padding: 1rem 1rem 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="/" class="logo"><i class="fas fa-box-open"></i> JemmoApp</a>
+      <ul class="nav-menu">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#categories">Categories</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#app">Get app</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="btn-icon" title="Cart" onclick="alert('Cart — coming in the app!')">
+          <i class="fas fa-shopping-bag"></i>
+          <span class="cart-count">3</span>
+        </button>
+        <a href="/resources/app.apk" class="btn btn-primary" download>
+          <i class="fas fa-download"></i> Download App
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Open menu">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <div class="hero-badge"><i class="fas fa-bolt"></i> Delivering in 15 minutes or less</div>
+      <h1>Fresh groceries &amp; daily goods, <span>delivered fast.</span></h1>
+      <p>JemmoApp brings the market to your door. Order fresh produce, snacks, and essentials — we pick, pack, and deliver in a flash.</p>
+      <div class="hero-buttons">
+        <a href="/resources/app.apk" class="btn btn-primary btn-large" download>
+          <i class="fas fa-download"></i> Download the app
+        </a>
+        <a href="#products" class="btn btn-ghost btn-large">
+          <i class="fas fa-basket-shopping"></i> Browse goods
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><strong>15 min</strong><span>Average delivery</span></div>
+        <div class="hero-stat"><strong>4.9/5</strong><span>App store rating</span></div>
+        <div class="hero-stat"><strong>50k+</strong><span>Happy customers</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="floating-badge badge-1"><i class="fas fa-circle-check"></i> Order confirmed</div>
+      <div class="hero-card">
+        <div class="card-title">
+          <h3>Your basket</h3>
+          <span class="delivery-pill"><i class="fas fa-bolt"></i> 15 min</span>
+        </div>
+        <div class="delivery-item">
+          <div class="delivery-icon"><i class="fas fa-seedling"></i></div>
+          <div class="info"><strong>Organic Avocados</strong><small>2 pcs · Fresh</small></div>
+          <div class="price">$4.50</div>
+        </div>
+        <div class="delivery-item">
+          <div class="delivery-icon"><i class="fas fa-bread-slice"></i></div>
+          <div class="info"><strong>Sourdough Loaf</strong><small>1 pc · Bakery</small></div>
+          <div class="price">$6.20</div>
+        </div>
+        <div class="delivery-item">
+          <div class="delivery-icon"><i class="fas fa-bottle-water"></i></div>
+          <div class="info"><strong>Almond Milk</strong><small>1L · Dairy alt.</small></div>
+          <div class="price">$3.80</div>
+        </div>
+        <div class="card-total"><span>Total</span><strong>$14.50</strong></div>
+      </div>
+      <div class="floating-badge badge-2"><i class="fas fa-truck-fast"></i> Rider on the way</div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section class="section" id="categories">
+    <div class="section-head">
+      <div class="section-tag">Shop by category</div>
+      <h2>Everything you need, sorted</h2>
+      <p>From fresh produce to household essentials — find it all in one place.</p>
+    </div>
+    <div class="categories">
+      <div class="category-card"><div class="cat-icon"><i class="fas fa-leaf"></i></div><h4>Fresh Produce</h4><span>120+ items</span></div>
+      <div class="category-card"><div class="cat-icon"><i class="fas fa-bread-slice"></i></div><h4>Bakery</h4><span>45+ items</span></div>
+      <div class="category-card"><div class="cat-icon"><i class="fas fa-bottle-water"></i></div><h4>Dairy &amp; Eggs</h4><span>60+ items</span></div>
+      <div class="category-card"><div class="cat-icon"><i class="fas fa-cookie-bite"></i></div><h4>Snacks</h4><span>90+ items</span></div>
+      <div class="category-card"><div class="cat-icon"><i class="fas fa-spray-can-sparkles"></i></div><h4>Household</h4><span>75+ items</span></div>
+      <div class="category-card"><div class="cat-icon"><i class="fas fa-mug-hot"></i></div><h4>Beverages</h4><span>50+ items</span></div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section class="section" id="products">
+    <div class="section-head">
+      <div class="section-tag">Popular right now</div>
+      <h2>Fresh picks for you</h2>
+      <p>Hand-picked favourites our customers order again and again.</p>
+    </div>
+    <div class="products-grid">
+      <div class="product-card">
+        <div class="product-img"><i class="fas fa-seedling"></i><span class="product-tag">Fresh</span></div>
+        <div class="product-body">
+          <h4>Organic Avocados</h4>
+          <div class="unit">Pack of 2 · Ripe &amp; ready</div>
+          <div class="product-bottom">
+            <div class="product-price">$4.50 <small>/ pack</small></div>
+            <button class="add-btn" title="Add to cart"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img"><i class="fas fa-bread-slice"></i><span class="product-tag">Bakery</span></div>
+        <div class="product-body">
+          <h4>Sourdough Loaf</h4>
+          <div class="unit">1 loaf · Baked today</div>
+          <div class="product-bottom">
+            <div class="product-price">$6.20 <small>/ each</small></div>
+            <button class="add-btn" title="Add to cart"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img"><i class="fas fa-bottle-water"></i><span class="product-tag">Dairy</span></div>
+        <div class="product-body">
+          <h4>Almond Milk</h4>
+          <div class="unit">1 litre · Unsweetened</div>
+          <div class="product-bottom">
+            <div class="product-price">$3.80 <small>/ bottle</small></div>
+            <button class="add-btn" title="Add to cart"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img"><i class="fas fa-apple-whole"></i><span class="product-tag">Fresh</span></div>
+        <div class="product-body">
+          <h4>Organic Strawberries</h4>
+          <div class="unit">250g punnet · Sweet</div>
+          <div class="product-bottom">
+            <div class="product-price">$5.10 <small>/ punnet</small></div>
+            <button class="add-btn" title="Add to cart"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img"><i class="fas fa-egg"></i><span class="product-tag">Farm</span></div>
+        <div class="product-body">
+          <h4>Free-Range Eggs</h4>
+          <div class="unit">12 pack · Large</div>
+          <div class="product-bottom">
+            <div class="product-price">$6.90 <small>/ dozen</small></div>
+            <button class="add-btn" title="Add to cart"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img"><i class="fas fa-mug-hot"></i><span class="product-tag">Popular</span></div>
+        <div class="product-body">
+          <h4>Arabica Coffee Beans</h4>
+          <div class="unit">250g · Medium roast</div>
+          <div class="product-bottom">
+            <div class="product-price">$11.40 <small>/ bag</small></div>
+            <button class="add-btn" title="Add to cart"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img"><i class="fas fa-spray-can-sparkles"></i><span class="product-tag">Home</span></div>
+        <div class="product-body">
+          <h4>Eco Dish Soap</h4>
+          <div class="unit">500ml · Plant-based</div>
+          <div class="product-bottom">
+            <div class="product-price">$4.20 <small>/ bottle</small></div>
+            <button class="add-btn" title="Add to cart"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img"><i class="fas fa-cookie-bite"></i><span class="product-tag">Snack</span></div>
+        <div class="product-body">
+          <h4>Dark Chocolate Bar</h4>
+          <div class="unit">80g · 70% cocoa</div>
+          <div class="product-bottom">
+            <div class="product-price">$3.60 <small>/ bar</small></div>
+            <button class="add-btn" title="Add to cart"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOWNLOAD APP -->
+  <section class="download-section" id="app">
+    <div class="download-card">
+      <div class="download-content">
+        <h2>Get the full JemmoApp experience</h2>
+        <p>Download the mobile app for exclusive deals, live order tracking, and one-tap reordering. Available for Android.</p>
+        <div class="download-actions">
+          <a href="/resources/app.apk" class="btn-apk" download>
+            <i class="fab fa-android"></i> Download APK
+          </a>
+          <span class="apk-meta"><i class="fas fa-shield-halved"></i> app.apk · Android 8.0+</span>
+        </div>
+      </div>
+      <div class="qr-box">
+        <div class="qr-placeholder"></div>
+        <span>Scan to download</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section" id="how">
+    <div class="section-head">
+      <div class="section-tag">Simple &amp; fast</div>
+      <h2>How JemmoApp works</h2>
+      <p>Three easy steps between you and your delivery.</p>
+    </div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-num"><i class="fas fa-magnifying-glass"></i></div>
+        <h3>Browse &amp; add to cart</h3>
+        <p>Explore categories and pick your favourite goods from local stores.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num"><i class="fas fa-credit-card"></i></div>
+        <h3>Checkout in seconds</h3>
+        <p>Confirm your address and pay securely — all inside the app.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num"><i class="fas fa-location-dot"></i></div>
+        <h3>Track &amp; receive</h3>
+        <p>Follow your rider in real time and get your order at the door.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo"><i class="fas fa-box-open"></i> JemmoApp</div>
+        <p>Fresh goods, greener living. Delivering everyday essentials to your door in minutes.</p>
+        <div class="socials">
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="#categories">Categories</a></li>
+          <li><a href="#products">Popular items</a></li>
+          <li><a href="#app">Get the app</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Partner with us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Help centre</a></li>
+          <li><a href="#">Delivery info</a></li>
+          <li><a href="#">Privacy &amp; terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2025 JemmoApp. All rights reserved. Fresh goods, greener living.
+    </div>
+  </footer>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="overlay" id="menuOverlay"></div>
+    <div class="panel">
+      <div class="panel-head">
+        <div class="logo"><i class="fas fa-box-open"></i> JemmoApp</div>
+        <button class="close-menu" id="closeMenu" aria-label="Close menu"><i class="fas fa-times"></i></button>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#home" class="close-on-nav"><i class="fas fa-house"></i> Home</a></li>
+          <li><a href="#categories" class="close-on-nav"><i class="fas fa-th-large"></i> Categories</a></li>
+          <li><a href="#products" class="close-on-nav"><i class="fas fa-basket-shopping"></i> Products</a></li>
+          <li><a href="#how" class="close-on-nav"><i class="fas fa-circle-question"></i> How it works</a></li>
+          <li><a href="#app" class="close-on-nav"><i class="fas fa-mobile-screen"></i> Get the app</a></li>
+        </ul>
+      </nav>
+      <div class="panel-foot">
+        <a href="/resources/app.apk" class="btn btn-primary" style="justify-content:center;" download>
+          <i class="fas fa-download"></i> Download APK
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 10);
+    });
+
+    const mobileMenu = document.getElementById('mobileMenu');
+    const hamburger = document.getElementById('hamburger');
+    const closeMenu = document.getElementById('closeMenu');
+    const overlay = document.getElementById('menuOverlay');
+
+    function openMenu() {
+      mobileMenu.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMenuFn() {
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    hamburger.addEventListener('click', openMenu);
+    closeMenu.addEventListener('click', closeMenuFn);
+    overlay.addEventListener('click', closeMenuFn);
+    document.querySelectorAll('.close-on-nav').forEach(link => {
+      link.addEventListener('click', closeMenuFn);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeMenuFn();
+    });
+  </script>
+</body>
+</html>
