@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JemmoApp — Fast Goods Delivery</title>
+  <script src="https://tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans">
+
+  <!-- Navbar -->
+  <nav class="bg-white shadow-sm sticky top-0 z-10">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <span class="bg-emerald-600 text-white font-bold px-2.5 py-1 rounded-lg text-lg">JA</span>
+        <span class="font-bold text-xl tracking-tight text-slate-900">JemmoApp</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="/admin" class="text-sm text-slate-500 hover:text-slate-900">Admin Portal</a>
+        <a href="/download-app" class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition shadow-sm">
+          Download JemmoApp (.APK)
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-12 items-center">
+    <div>
+      <span class="inline-block bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1 rounded-full mb-4">
+        Same-Day Citywide Dispatch
+      </span>
+      <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-4">
+        Send packages across town with JemmoApp.
+      </h1>
+      <p class="text-slate-600 text-lg mb-8">
+        Track riders in real time, schedule instant pickups, and manage deliveries straight from the JemmoApp Android app or web portal.
+      </p>
+
+      <!-- App Download Card -->
+      <div class="bg-slate-900 text-white p-6 rounded-2xl shadow-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <p class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Android Mobile App</p>
+          <h3 class="text-lg font-bold">Get JemmoApp on your phone</h3>
+          <p class="text-slate-400 text-sm">Direct APK download • v1.0.0</p>
+        </div>
+        <a href="/download-app" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-5 py-3 rounded-xl flex items-center gap-2 transition shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V3"/>
+          </svg>
+          Download APK
+        </a>
+      </div>
+    </div>
+
+    <!-- Quick Order Form -->
+    <div class="bg-white p-8 rounded-2xl shadow-md border border-slate-100">
+      <h2 class="text-2xl font-bold mb-1">Book a Delivery Now</h2>
+      <p class="text-slate-500 text-sm mb-6">No account required for instant JemmoApp dispatch.</p>
+
+      <form id="orderForm" class="space-y-4">
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Your Name</label>
+            <input type="text" id="customerName" required placeholder="Jane Doe"
+              class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Phone Number</label>
+            <input type="tel" id="phone" required placeholder="+254 700 000 000"
+              class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none text-sm" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Pickup Location</label>
+          <input type="text" id="pickup" required placeholder="e.g. Westlands, Sarit Centre"
+            class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none text-sm" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Drop-off Location</label>
+          <input type="text" id="dropoff" required placeholder="e.g. Kilimani, Yaya Centre"
+            class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none text-sm" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Package Description</label>
+          <input type="text" id="item" required placeholder="e.g. Box of shoes, fragile glassware"
+            class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none text-sm" />
+        </div>
+
+        <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3 rounded-xl transition">
+          Request Rider
+        </button>
+      </form>
+
+      <div id="statusMsg" class="hidden mt-4 p-3 rounded-lg bg-emerald-50 text-emerald-800 text-sm font-medium text-center"></div>
+    </div>
+  </header>
+
+  <script>
+    document.getElementById('orderForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        customerName: document.getElementById('customerName').value,
+        phone: document.getElementById('phone').value,
+        pickup: document.getElementById('pickup').value,
+        dropoff: document.getElementById('dropoff').value,
+        item: document.getElementById('item').value,
+      };
+
+      const res = await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        const order = await res.json();
+        const msg = document.getElementById('statusMsg');
+        msg.textContent = `Order ${order.id} confirmed! A JemmoApp rider is being assigned.`;
+        msg.classList.remove('hidden');
+        e.target.reset();
+      }
+    });
+  </script>
+</body>
+</html>
